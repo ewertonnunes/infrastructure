@@ -1,0 +1,243 @@
+cat <<EOF | kubectl apply -f -
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: grafana-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 4000
+      name: grafana-http
+      protocol: HTTP
+    hosts:
+    - "webserver.ton.io"
+EOF
+---
+
+cat <<EOF | kubectl apply -f -
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: grafana-vs
+  namespace: istio-system
+spec:
+  hosts:
+  - "webserver.ton.io"
+  gateways:
+  - grafana-gateway
+  http:
+  - route:
+    - destination:
+        host: grafana-svc
+        port:
+          number: 4000
+EOF
+
+---
+
+cat <<EOF | kubectl apply -f -
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: grafana
+  namespace: istio-system
+spec:
+  host: grafana-svc
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+
+  labels:
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/version: 7.5.5
+    helm.sh/chart: grafana-6.11.0
+  name: grafana-svc
+  namespace: istio-system
+spec:
+  ports:
+  - port: 4000
+    targetPort: 3000
+    name: http-grafana
+    protocol: TCP
+  selector:
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/name: grafana
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+
+EOF
+
+---
+
+cat <<EOF | kubectl apply -f -
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/version: 7.5.5
+    helm.sh/chart: grafana-6.11.0
+  name: grafana
+  namespace: istio-system
+
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: grafana
+      app.kubernetes.io/name: grafana
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/config: af4530cc6e67e63b6285f3ceccaf0aaa2a20d322e35c9f0ae48721add3b58eb0
+        checksum/dashboards-json-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+        checksum/sc-dashboard-provider-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+ 
+        sidecar.istio.io/inject: "false"
+      creationTimestamp: null
+      labels:
+        app: grafana
+        app.kubernetes.io/instance: grafana
+        app.kubernetes.io/name: grafana
+        version: 6.11.0
+    spec:
+      containers:
+      - env:
+        - name: GF_PATHS_DATA
+          value: /var/lib/grafana/
+        - name: GF_PATHS_LOGS
+          value: /var/log/grafana
+        - name: GF_PATHS_PLUGINS
+          value: /var/lib/grafana/plugins
+        - name: GF_PATHS_PROVISIONING
+          value: /etc/grafana/provisioning
+        - name: GF_AUTH_ANONYMOUS_ENABLED
+          value: "true"
+        - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+          value: Admin
+        - name: GF_AUTH_BASIC_ENABLED
+          value: "false"
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          value: '-'
+        - name: GF_SECURITY_ADMIN_USER
+          value: '-'
+        image: grafana/grafana:7.5.5
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /api/health
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        name: grafana
+        ports:
+        - containerPort: 3000
+          name: grafana
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /api/health
+            port: 3000
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/grafana/grafana.ini
+          name: config
+          subPath: grafana.ini
+        - mountPath: /var/lib/grafana
+          name: storage
+        - mountPath: /var/lib/grafana/dashboards/istio
+          name: dashboards-istio
+        - mountPath: /var/lib/grafana/dashboards/istio-services
+          name: dashboards-istio-services
+        - mountPath: /etc/grafana/provisioning/datasources/datasources.yaml
+          name: config
+          subPath: datasources.yaml
+        - mountPath: /etc/grafana/provisioning/dashboards/dashboardproviders.yaml
+          name: config
+          subPath: dashboardproviders.yaml
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 472
+        runAsGroup: 472
+        runAsUser: 472
+      serviceAccount: grafana
+      serviceAccountName: grafana
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: grafana
+        name: config
+      - configMap:
+          defaultMode: 420
+          name: istio-grafana-dashboards
+        name: dashboards-istio
+      - configMap:
+          defaultMode: 420
+          name: istio-services-grafana-dashboards
+        name: dashboards-istio-services
+      - emptyDir: {}
+        name: storage
+EOF
+
+
+
+
+
+
+
+#  - name: prometheus
+#    nodePort: 30003
+#    port: 8090
+#    protocol: TCP
+#    targetPort: 8090
+#  - name: kiali
+#    nodePort: 30004
+#    port: 20001
+#    protocol: TCP
+#    targetPort: 20001
+#  - name: jaeger
+#    nodePort: 30005
+#    port: 8095
+#    protocol: TCP
+#    targetPort: 8095

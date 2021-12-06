@@ -1,0 +1,89 @@
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: istio-ingressgateway
+    install.operator.istio.io/owning-resource: unknown
+    install.operator.istio.io/owning-resource-namespace: istio-system
+    istio: ingressgateway
+    istio.io/rev: default
+    operator.istio.io/component: IngressGateways
+    operator.istio.io/managed: Reconcile
+    operator.istio.io/version: 1.11.4
+    release: istio
+  name: istio-ingressgateway
+  namespace: istio-system
+  resourceVersion: "84839"
+spec:
+  allocateLoadBalancerNodePorts: true
+  externalIPs:
+  - 192.168.15.24
+  - 192.168.15.25
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: status-port
+    nodePort: 31974
+    port: 15021
+    protocol: TCP
+    targetPort: 15021
+  - name: https
+    nodePort: 32655
+    port: 443
+    protocol: TCP
+    targetPort: 8443
+  - name: tcp
+    nodePort: 32049
+    port: 31400
+    protocol: TCP
+    targetPort: 31400
+  - name: tls
+    nodePort: 31307
+    port: 15443
+    protocol: TCP
+    targetPort: 15443
+  - name: nginx
+    nodePort: 30001
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+  - name: grafana
+    nodePort: 30002
+    port: 4000
+    protocol: TCP
+    targetPort: 4000
+    
+  - name: kiali
+    nodePort: 30003
+    port: 7000
+    protocol: TCP
+    targetPort: 7000
+
+  - name: jaeger
+    nodePort: 30004
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+
+  - name: productpage
+    nodePort: 30005
+    port: 9080
+    protocol: TCP
+    targetPort: 9080
+
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+EOF
+
+rate(istio_requests_total{kubernetes_namespace=~".*", response_code=~"200", destination_service_name=~".*"}[1m])
+destination_service_name
