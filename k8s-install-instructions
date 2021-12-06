@@ -1,13 +1,28 @@
 
+
+## Criada dev branch.
+
+## Backup PC em 06/12
+
+
+
 ##Git configurations
 git init
+
 git config --global user.name "Ewerton Florêncio"
+
 git config --global user.email "ewerton.florencio@outlook.com"
+
 git config --global color.ui true
+
 git config --global core.editor emacs
+
 git status
+
 git pull https://github.com/ewertonnunes/infrastructure main
+
 git branch --set-upstream-to=https://github.com/ewertonnunes/infrastructure main
+
 git push  -u https://github.com/ewertonnunes/infrastructure
 
 ## Installing Kubernetes Cluster on Ubuntu Server 20.~
