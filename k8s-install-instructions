@@ -6,6 +6,28 @@
 
 ######TRY"
 
+
+Here is what worked for me:
+
+First Step (update your master):
+
+git add . 
+
+git status                # to see the changes to be committed
+
+git commit -m "comments"
+
+git push origin master
+Second Step (Update gh-pages):
+
+git-checkout gh-pages     # going to the gh-pages branch
+
+git rebase master         # sync gh-pages with master 
+
+git push origin gh-pages  # commit changes to gh-pages
+
+git checkout master       # return to the master 
+
 ##Git configurations
 git init
 
