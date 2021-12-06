@@ -1,17 +1,50 @@
-# infrastructure
-k8s + Pipeline Deploy + Github + Jenkins
 
-# My Laboratory with Kubernetes istio Gateway and how to install istio.
+
+## Criada dev branch.
+
+## Backup PC em 06/12
+
+####
+
+
+Here is what worked for me:
+
+First Step (update your master):
+
+git add . 
+
+git status                # to see the changes to be committed
+
+git commit -m "comments"
+
+git push origin master
+Second Step (Update gh-pages):
+
+git-checkout gh-pages     # going to the gh-pages branch
+
+git rebase master         # sync gh-pages with master 
+
+git push origin gh-pages  # commit changes to gh-pages
+
+git checkout master       # return to the master 
 
 ##Git configurations
 git init
+
 git config --global user.name "Ewerton Florêncio"
+
 git config --global user.email "ewerton.florencio@outlook.com"
+
 git config --global color.ui true
+
 git config --global core.editor emacs
+
 git status
+
 git pull https://github.com/ewertonnunes/infrastructure main
+
 git branch --set-upstream-to=https://github.com/ewertonnunes/infrastructure main
+
 git push  -u https://github.com/ewertonnunes/infrastructure
 
 ## Installing Kubernetes Cluster on Ubuntu Server 20.~
@@ -48,6 +81,9 @@ sudo sysctl -w net.ipv6.conf.lo.disable_ipv6=1
 #Check Mac-Addresss
 cat /sys/class/dmi/id/product_uuid
 
+
+
+```bash
 #Enable IPTABLES Bridge Traffic
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
 br_netfilter
@@ -58,6 +94,7 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
  sysctl --system
+```bash
 
 ## Update and Install utils on S.O
  apt-get update 
