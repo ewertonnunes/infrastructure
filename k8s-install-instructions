@@ -1,3 +1,94 @@
+   1 git status
+   2 git checkout dev
+   3 git push origin master
+   4 git remote add https://github.com/ewertonnunes/infrastructure main
+   5 clear
+   6 gite remote
+   7 git remote
+   8 git remote --help
+   9 git remote -v
+  10 git add https://github.com/ewertonnunes/infrastructure
+  11 git remote add https://github.com/ewertonnunes/infrastructure
+  12 git remote add https://github.com/ewertonnunes/infrastructure main
+  13 git remote
+  14 git pull -u
+  15 git branch --set-upstream-to=https://github.com/ewertonnunes/infrastructure main
+  16 git push -u
+  17 git pull
+  18 git checkout dev
+  19 clear
+  20 git remote -v
+  21 git remote
+  22 git remote add
+  23 git remote add -f https://github.com/ewertonnunes/infrastructure
+  24 git remote add -f https://github.com/ewertonnunes/infrastructure.git main
+  25 git remote add -f https://github.com/ewertonnunes/infrastructure.git
+  26 git push  -u https://github.com/ewertonnunes/infrastructure
+  27 git status
+  28 git add .
+  29 git commit -m "test"
+  30 git push
+  31 git push origin master
+  32 git push origin main
+  33 git fetch
+  34 git remote -a
+  35 git remote -v
+  36 git remote
+  37 git remote add main https://github.com/ewertonnunes/infrastructure.git
+  38 git remote -a
+  39 git remote -v
+  40 clear
+  41 git status
+  42 git pull
+  43 git checkout dev
+  44 git status
+  45 git checkout dev
+  46 ls
+  47 git clone
+  48 git clone https://github.com/ewertonnunes/infrastructure.git dev
+  49 git status
+  50 git checkout dev
+  51 ls
+  52 ls
+  53 cd .\dev\
+  54 ls
+  55 clear
+  56 git status
+  57 cd ..
+  58 ls
+  59 gt chec
+  60 git checkout dev
+  61 git status
+  62 git pull
+  63 git branch --set-upstream-to=https://github.com/ewertonnunes/infrastructure dev
+  64 git push  -u https://github.com/ewertonnunes/infrastructure dev
+  65 git fetch
+  66 clear
+  67 ls
+  68 git config --global user.name "Ewerton Florêncio"
+  69 git config --global user.email "ewerton.florencio@outlook.com"
+  70 git config --global color.ui true
+  71 git config --global core.editor emacs
+  72 git status
+  73 git log
+  74 clear
+  75 git pull
+  76 git merge main
+  77 git status
+  78 git add .
+  79 git commit -m "precisa melhorar a documentação sobre git"
+  80 git status
+  81 git push
+  82 git status
+  83 git checkout dev
+  84 git checkout main
+  85 git status
+  86 git pull
+  87 git status
+  88 git push
+  89 git remote -v
+
+
 ### Precisa melhorar!
 Here is what worked for me:
 
