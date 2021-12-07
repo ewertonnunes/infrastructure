@@ -89,6 +89,9 @@
   89 git remote -v
 
 
+
+git config --global core.excludesFile ~/.gitignore
+
 ### Precisa melhorar!
 Here is what worked for me:
 
