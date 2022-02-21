@@ -9,7 +9,7 @@ spec:
     istio: ingressgateway
   servers:
   - port:
-      number: 6000
+      number: 9090
       name: http-prom
       protocol: HTTP
     hosts:
