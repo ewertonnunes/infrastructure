@@ -19,8 +19,8 @@ metadata:
 spec:
   allocateLoadBalancerNodePorts: true
   externalIPs:
-  - 192.168.15.24
-  - 192.168.15.25
+  - 192.168.15.5
+  - 192.168.15.10
   externalTrafficPolicy: Cluster
   internalTrafficPolicy: Cluster
   ipFamilies:
