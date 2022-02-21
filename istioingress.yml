@@ -11,13 +11,14 @@ metadata:
     istio.io/rev: default
     operator.istio.io/component: IngressGateways
     operator.istio.io/managed: Reconcile
-    operator.istio.io/version: 1.11.4
+    operator.istio.io/version: 1.13.0
     release: istio
   name: istio-ingressgateway
   namespace: istio-system
-  resourceVersion: "84839"
+  resourceVersion: "1545"
 spec:
   allocateLoadBalancerNodePorts: true
+  clusterIP: 10.100.77.98
   externalIPs:
   - 192.168.15.5
   - 192.168.15.10
