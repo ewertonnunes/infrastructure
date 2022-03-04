@@ -132,8 +132,3 @@ spec:
       version: v2
 ---
 EOF
-
-
-
-kubectl get pods | awk '{print $1}'  | head -n +3 | tail -n -2
-201.87.26.21
