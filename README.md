@@ -1,56 +1,26 @@
 
-
-## Criada dev branch.
-
-## Backup PC em 06/12
-
-####
-
-
-Here is what worked for me:
-
+#### Here is what worked for me:
 First Step (update your master):
-
 git add . 
-
 git status                # to see the changes to be committed
-
 git commit -m "comments"
-
 git push origin master
-Second Step (Update gh-pages):
 
+## Second Step (Update gh-pages):
 git-checkout gh-pages     # going to the gh-pages branch
-
 git rebase master         # sync gh-pages with master 
-
 git push origin gh-pages  # commit changes to gh-pages
-
 git checkout master       # return to the master 
 
 ##Git configurations
 git init
-
-git config --global user.name "Ewerton Florêncio"
-
-git config --global user.email "ewerton.florencio@outlook.com"
-
-git config --global color.ui true
-
-git config --global core.editor emacs
-
 git status
-
 git pull https://github.com/ewertonnunes/infrastructure main
-
 git branch --set-upstream-to=https://github.com/ewertonnunes/infrastructure main
-
 git push  -u https://github.com/ewertonnunes/infrastructure
 
 ## Installing Kubernetes Cluster on Ubuntu Server 20.~
-
-##Requirements
-
+##Requirements (Minimum per VM)
 #2GB RAM
 #2 vCPU
 
@@ -71,17 +41,13 @@ git push  -u https://github.com/ewertonnunes/infrastructure
 #Disable SWAP
 swapoff -a
 
-
 #Disable IPV6
 sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
 sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
 sudo sysctl -w net.ipv6.conf.lo.disable_ipv6=1
 
-
 #Check Mac-Addresss
 cat /sys/class/dmi/id/product_uuid
-
-
 
 ```bash
 #Enable IPTABLES Bridge Traffic
@@ -167,17 +133,14 @@ kubeadm config images pull
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
 ##Install calico network
-
 curl https://docs.projectcalico.org/manifests/calico.yaml -O
 kubectl apply -f calico.yaml
 
-
-##Command to join with workers
+##Command to join with workers example:
 kubeadm join 192.168.15.24:6443 --token d4rynq.qcxcxczjagmhzz2l \
         --discovery-token-ca-cert-hash sha256:fa42427e0d85538c0609f559d47c12d58355be74a86088b3242621d057919103
 
-
-###Auto completion
+###put it into your .bashrc to enable kubectl auto completion.
 source /etc/bash_completion 
 source <(kubectl completion bash)
 
