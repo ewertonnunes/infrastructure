@@ -23,7 +23,7 @@ git status
 git pull https://github.com/ewertonnunes/infrastructure main
 git branch --set-upstream-to=https://github.com/ewertonnunes/infrastructure main
 git push  -u https://github.com/ewertonnunes/infrastructure
-```git
+```
 
 ```bash
 ## Installing Kubernetes Cluster on Ubuntu Server 20.~
