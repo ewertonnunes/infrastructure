@@ -17,16 +17,20 @@ git checkout master       # return to the master
 ```
 
 ##Git configurations
+```git
 git init
 git status
 git pull https://github.com/ewertonnunes/infrastructure main
 git branch --set-upstream-to=https://github.com/ewertonnunes/infrastructure main
 git push  -u https://github.com/ewertonnunes/infrastructure
+```git
 
+```bash
 ## Installing Kubernetes Cluster on Ubuntu Server 20.~
 ##Requirements (Minimum per VM)
 #2GB RAM
 #2 vCPU
+
 
 ##Ports
 
@@ -52,6 +56,8 @@ sudo sysctl -w net.ipv6.conf.lo.disable_ipv6=1
 
 #Check Mac-Addresss
 cat /sys/class/dmi/id/product_uuid
+
+```
 
 ```bash
 #Enable IPTABLES Bridge Traffic
