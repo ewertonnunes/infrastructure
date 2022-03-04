@@ -20,8 +20,8 @@ spec:
   allocateLoadBalancerNodePorts: true
   clusterIP: 10.100.77.98
   externalIPs:
-  - 192.168.15.5
-  - 192.168.15.10
+  - 192.168.15.5  ## Change for current K8S nodes IPs
+  - 192.168.15.10 ## Change for current K8S nodes IPs
   externalTrafficPolicy: Cluster
   internalTrafficPolicy: Cluster
   ipFamilies:
@@ -85,6 +85,3 @@ spec:
 status:
   loadBalancer: {}
 EOF
-
-rate(istio_requests_total{kubernetes_namespace=~".*", response_code=~"200", destination_service_name=~".*"}[1m])
-destination_service_name
